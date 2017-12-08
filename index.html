@@ -19,181 +19,177 @@
     <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
   </head>
   <body>
-    <nav>
-        <a href="/">Group 37</a>
-                              &nbsp;|&nbsp;<a href="/ifeldhaus/crime-eda.html">EDA</a>
-                              &nbsp;|&nbsp;<a href="/ifeldhaus/crime-model.html">Models</a>
-
-
-
-    </nav>
 
       <h1>Predicting Violent Crime</h1>
 
-<div id="toc_container">
-  <p class="toc_title">Table of Contents</p>
-    <ul class="toc_list">
-      <li><a href="#Problem">1 Problem Statement and Motivation</a></li>
-      <li><a href="#LitReview">2 Literature Review</a></li>
-      <li><a href="#Intro">3 Description of the Data</a></li>
-      <ul>
-        <li><a href="#FBIdata">3.1 FBI Crime Dataset</a></li>
-        <li><a href="#UScensus">3.2 U.S. Census Dataset</a></li>
-        <li><a href="#Aggregating">3.3 Aggregating the Data</a></li>
-        <li><a href="#InitialEDA">3.4 Initial Exploratory Data Analysis on the Training Set</a></li>
+      <nav>
+          <a href="/ifeldhaus/crime-notebook.html">Jupyter Notebook</a>
+      </nav>
+
+    <div id="toc_container">
+      <p class="toc_title">Table of Contents</p>
+        <ul class="toc_list">
+          <li><a href="#Problem">1 Problem Statement and Motivation</a></li>
+          <li><a href="#LitReview">2 Literature Review</a></li>
+          <li><a href="#Intro">3 Description of the Data</a></li>
+          <ul>
+            <li><a href="#FBIdata">3.1 FBI Crime Dataset</a></li>
+            <li><a href="#UScensus">3.2 U.S. Census Dataset</a></li>
+            <li><a href="#Aggregating">3.3 Aggregating the Data</a></li>
+            <li><a href="#InitialEDA">3.4 Initial Exploratory Data Analysis on the Training Set</a></li>
+          </ul>
+          <li><a href="#Approach">4 Modeling Approach and Project Trajectory</a></li>
+          <ul>
+            <li><a href="#EDA">4.1 Exploratory Data Analysis</a></li>
+            <li><a href="#Models">4.2 Data Analysis</a></li>
+          </ul>
+          <li><a href="#Results">5 Results</a></li>
+          <ul>
+            <li><a href="#EDAresults">5.1 EDA</a></li>
+            <li><a href="#BaselineResults">5.2 Baseline Model</a></li>
+            <li><a href="#ForwardResults">5.3 Forward Selection Model</a></li>
+            <li><a href="#PreselectedResults">5.4 Model with Pre-Selected Variables</a></li>
+            <li><a href="#Performance">5.5 Comparing Performance</a></li>
+            <li><a href="#FinalModel">5.6 Final Model</a></li>
+          </ul>
+          <li><a href="#Conclusions">6 Conclusions</a></li>
+          <li><a href="#Future">7 Future Work</a></li>
+          <li><a href="#References">8 References</a></li>
       </ul>
-      <li><a href="#Approach">4 Modeling Approach and Project Trajectory</a></li>
-      <ul>
-        <li><a href="#EDA">4.1 Exploratory Data Analysis</a></li>
-        <li><a href="#Models">4.2 Data Analysis</a></li>
-      </ul>
-      <li><a href="#Results">5 Results</a></li>
-      <ul>
-        <li><a href="#EDAresults">5.1 EDA</a></li>
-        <li><a href="#BaselineResults">5.2 Baseline Model</a></li>
-        <li><a href="#ForwardResults">5.3 Forward Selection Model</a></li>
-        <li><a href="#PreselectedResults">5.4 Model with Pre-Selected Variables</a></li>
-        <li><a href="#Performance">5.5 Comparing Performance</a></li>
-        <li><a href="#FinalModel">5.6 Final Model</a></li>
-      </ul>
-      <li><a href="#Conclusions">6 Conclusions</a></li>
-      <li><a href="#Future">7 Future Work</a></li>
-      <li><a href="#References">8 References</a></li>
-  </ul>
-</div>
+    </div>
 
 
-<h2 id=Problem>1 Problem Statement and Motivation</h2>
+    <h2 id=Problem>1 Problem Statement and Motivation</h2>
 
-<p>According to the U.S. Federal Bureau of Investigation (FBI), violent crime has increased 2.6% since 2012 with 1.2 million violent crimes in 2016 [1]. Predicting violent crime can be critical to effective targeting of prevention efforts given inevitable resource constraints. The objective of this analysis is to build and evaluate a data-driven model for predicting violent crime per capita in selected metropolitan regions of the U.S. using publicly available crime and census data from 2006 to 2016.</p>
+    <p>According to the U.S. Federal Bureau of Investigation (FBI), violent crime has increased 2.6% since 2012 with 1.2 million violent crimes in 2016 [1]. Predicting violent crime can be critical to effective targeting of prevention efforts given inevitable resource constraints. The objective of this analysis is to build and evaluate a data-driven model for predicting violent crime per capita in selected metropolitan regions of the U.S. using publicly available crime and census data from 2006 to 2016.</p>
 
-<h2 id=LitReview>2 Literature Review</h2>
+    <h2 id=LitReview>2 Literature Review</h2>
 
-<p>The connection between crime and city size has long been recognized. Several studies since 1976 discuss the tendency for larger urban areas to have higher crime rates. This relationship is hypothesized to be driven by overcrowding and anti-social behavior, an association between population density and poverty, and/or increased opportunity for crimes in densely populated areas [2,3]. Glaeser and Sacerdote (1999) use victimization data, evidence on criminal behavior, and crime reports to demonstrate a positive correlation between city size and crime rates per capita, including murder rates per capita [2]. Their findings suggest that higher pecuniary returns to crime and lower probability of arrest in urban areas are among the drivers of increased violent crime rates. Other studies point to the characteristics of inhabitants within a geographical area, including income, race, homeownership, and family structure as well as psychological and physical-environmental factors as predictors of crime [4–8]. Another study found that gun violence is spread through individuals’ social networks, as if an epidemic-like process of social contagion [9]. The factors considered in these studies are all distinctly related by urban geographical area.</p>
+    <p>The connection between crime and city size has long been recognized. Several studies since 1976 discuss the tendency for larger urban areas to have higher crime rates. This relationship is hypothesized to be driven by overcrowding and anti-social behavior, an association between population density and poverty, and/or increased opportunity for crimes in densely populated areas [2,3]. Glaeser and Sacerdote (1999) use victimization data, evidence on criminal behavior, and crime reports to demonstrate a positive correlation between city size and crime rates per capita, including murder rates per capita [2]. Their findings suggest that higher pecuniary returns to crime and lower probability of arrest in urban areas are among the drivers of increased violent crime rates. Other studies point to the characteristics of inhabitants within a geographical area, including income, race, homeownership, and family structure as well as psychological and physical-environmental factors as predictors of crime [4–8]. Another study found that gun violence is spread through individuals’ social networks, as if an epidemic-like process of social contagion [9]. The factors considered in these studies are all distinctly related by urban geographical area.</p>
 
-<p>A number of modeling techniques have been applied in the study of violent crime. Glaeser and Sacerdote (1999) employed a decomposition model, while Christens and Speer (2005) built a hierarchical regression model of inhabitant characteristics and population density [2,3]. Green, Horel, and Papachristos (2017) conducted an epidemiological analysis of social networks to explore the phenomenon of social contagion for gun violence. Each of these analyses highlight different aspects of violent crime and its connection with population density and/or city size. However, few studies explored how we can utilize these findings to predict violent crime rate in a given city.</p>
+    <p>A number of modeling techniques have been applied in the study of violent crime. Glaeser and Sacerdote (1999) employed a decomposition model, while Christens and Speer (2005) built a hierarchical regression model of inhabitant characteristics and population density [2,3]. Green, Horel, and Papachristos (2017) conducted an epidemiological analysis of social networks to explore the phenomenon of social contagion for gun violence. Each of these analyses highlight different aspects of violent crime and its connection with population density and/or city size. However, few studies explored how we can utilize these findings to predict violent crime rate in a given city.</p>
 
-<p>Based on these existing evidences, we were particularly interested in population size and region as they relate to violent crime per capita in this analysis. We have also considered characteristics of inhabitants, such as median age, sex, race, marital status, educational attainment, and poverty status, as each of these variables also align with the literature as potentially good predictors of violent crime [11].</p>
+    <p>Based on these existing evidences, we were particularly interested in population size and region as they relate to violent crime per capita in this analysis. We have also considered characteristics of inhabitants, such as median age, sex, race, marital status, educational attainment, and poverty status, as each of these variables also align with the literature as potentially good predictors of violent crime [11].</p>
 
-<h2 id=Intro>3 Description of the Data</h2>
+    <h2 id=Intro>3 Description of the Data</h2>
 
-<p>Our goal is to build and evaluate a prediction model for violent crime per capita because the cost of violent crime to victims and the criminal justice system is significantly higher than other crime[10]. Thus, it is important to understand and be able to predict violent crime rate given census data and other crime data for a particular metropolitan area so that potential interventions may be designed for high violent crime cities.</p>
+    <p>Our goal is to build and evaluate a prediction model for violent crime per capita because the cost of violent crime to victims and the criminal justice system is significantly higher than other crime[10]. Thus, it is important to understand and be able to predict violent crime rate given census data and other crime data for a particular metropolitan area so that potential interventions may be designed for high violent crime cities.</p>
 
-<p>Data from the Uniform Crime Reporting Program (UCR) of the FBI and U.S. Census Bureau between 2006 and 2016 were used to obtain information on our outcome of interest, violent crime, and potential predictors. Violent crime is defined by UCR as murder and non-negligent manslaughter, rape, robbery, and aggravated assault. In our analysis, we obtained the log of violent crime as a rate per 100,000 inhabitants.</p>
+    <p>Data from the Uniform Crime Reporting Program (UCR) of the FBI and U.S. Census Bureau between 2006 and 2016 were used to obtain information on our outcome of interest, violent crime, and potential predictors. Violent crime is defined by UCR as murder and non-negligent manslaughter, rape, robbery, and aggravated assault. In our analysis, we obtained the log of violent crime as a rate per 100,000 inhabitants.</p>
 
-<p>Potential predictors of violent crime included property crime (data available via UCR database), MSA population size, age, sex, race, ethnicity, household type, marital status, education attainment, place of birth and/or citizenship status, employment status, income in the past 12 months, type of income, homeownership, and poverty status, all of which are available and downloaded from U.S. Census dataset.</p>
+    <p>Potential predictors of violent crime included property crime (data available via UCR database), MSA population size, age, sex, race, ethnicity, household type, marital status, education attainment, place of birth and/or citizenship status, employment status, income in the past 12 months, type of income, homeownership, and poverty status, all of which are available and downloaded from U.S. Census dataset.</p>
 
-<h3 id=FBIdata>3.1 FBI Crime Dataset</h3>
+    <h3 id=FBIdata>3.1 FBI Crime Dataset</h3>
 
-<p>The FBI crime dataset had 3806 observations over the eleven-year time period (2006-2016) across 511 MSAs. 163 MSAs had data over all 11 years, and the majority (n=415) had data for 5 or more years. Due the large number of MSA, we grouped MSA into eight regions to visualize the geographic variability in crime rate: “New England”, “Middle Atlantic”, “East North Central”, “West North Central”, “South Atlantic”, “East South Central”, “Mountain”, and “Pacific” (see Figure 1).</p>
+    <p>The FBI crime dataset had 3806 observations over the eleven-year time period (2006-2016) across 511 MSAs. 163 MSAs had data over all 11 years, and the majority (n=415) had data for 5 or more years. Due the large number of MSA, we grouped MSA into eight regions to visualize the geographic variability in crime rate: “New England”, “Middle Atlantic”, “East North Central”, “West North Central”, “South Atlantic”, “East South Central”, “Mountain”, and “Pacific” (see Figure 1).</p>
 
-<p>As shown in Figure 1 above, violent crime varies dramatically across region. West South Central has the highest violent crime rate (501.43 violent crimes/100,000 people) while the Middle Atlantic has the lowest violent crime rate (275.05 violent crimes/100,000 people). This suggests that region may be predictive of violent crime, so region was included as a possible predictor in analyses.</p>
+    <p>As shown in Figure 1 above, violent crime varies dramatically across region. West South Central has the highest violent crime rate (501.43 violent crimes/100,000 people) while the Middle Atlantic has the lowest violent crime rate (275.05 violent crimes/100,000 people). This suggests that region may be predictive of violent crime, so region was included as a possible predictor in analyses.</p>
 
-<h3 id=UScensus>3.2 U.S. Census Data</h3>
+    <h3 id=UScensus>3.2 U.S. Census Data</h3>
 
-<p>We downloaded data on age, sex, race, ethnicity, household type, marital status, education attainment, place of birth and/or citizenship status, employment status, income in the past 12 months, type of income, poverty status, household size, and ratio of homeowners versus renters, from 2006-2016, using the United States Census Bureau (USCB) website. After some initial exploratory analysis, we decided to particularly focus on the following predictors from the census data: <em>population size, sex, age, race, marital status, education level, poverty status, employment status, U.S. region, homeownership, income inequality, and household size</em>.</p>
+    <p>We downloaded data on age, sex, race, ethnicity, household type, marital status, education attainment, place of birth and/or citizenship status, employment status, income in the past 12 months, type of income, poverty status, household size, and ratio of homeowners versus renters, from 2006-2016, using the United States Census Bureau (USCB) website. After some initial exploratory analysis, we decided to particularly focus on the following predictors from the census data: <em>population size, sex, age, race, marital status, education level, poverty status, employment status, U.S. region, homeownership, income inequality, and household size</em>.</p>
 
-<h3 id=Aggregating>3.3 Aggregating the Data</h3>
+    <h3 id=Aggregating>3.3 Aggregating the Data</h3>
 
-<p>After merging the census dataset with the FBI crime dataset, our dataset contained 2890 observations across 468 MSAs. For ease of analysis, we considered aggregating data for MSAs by taking the average of covariates across all years of available year. Before doing so, we assessed the variability of violent crime per capita over the entire time period.</p>
+    <p>After merging the census dataset with the FBI crime dataset, our dataset contained 2890 observations across 468 MSAs. For ease of analysis, we considered aggregating data for MSAs by taking the average of covariates across all years of available year. Before doing so, we assessed the variability of violent crime per capita over the entire time period.</p>
 
-<p>Violent crime rates declined slightly from 2006 to 2014 but then increased between 2014-2016 (see Figure 2, left). The pattern appeared to differ by region, though generally most regions show a similar pattern of decline followed by an uptick in the crime rate from 2014 th 2016 (Figure 2, right). Overall, the violent crime rate does not vary widely over time, justifying an approach to aggregate data for MSAs across year. Furthermore, we include an “average year” covariate in some prediction models to capture some of the variability created by some MSAs that only have data for earlier or later years.</p>
+    <p>Violent crime rates declined slightly from 2006 to 2014 but then increased between 2014-2016 (see Figure 2, left). The pattern appeared to differ by region, though generally most regions show a similar pattern of decline followed by an uptick in the crime rate from 2014 th 2016 (Figure 2, right). Overall, the violent crime rate does not vary widely over time, justifying an approach to aggregate data for MSAs across year. Furthermore, we include an “average year” covariate in some prediction models to capture some of the variability created by some MSAs that only have data for earlier or later years.</p>
 
-<p>Both the Census and FBI datasets provide an MSA population size estimate. These two numbers vary slightly, so the average was used as the final population size covariate for a given MSA. Additionally, about 13% of the marital status and less than 10% of the income covariates were missing. To deal with missingness, we imputed the mean of the covariate by MSA. If the MSA did not have any measures for that covariate, then the MSA’s regional mean was imputed for all remaining missing covariates. Our final dataset included 40 variables across 468 MSAs. This dataset was further split to training set (339 obs) and testing set (129 obs).</p>
+    <p>Both the Census and FBI datasets provide an MSA population size estimate. These two numbers vary slightly, so the average was used as the final population size covariate for a given MSA. Additionally, about 13% of the marital status and less than 10% of the income covariates were missing. To deal with missingness, we imputed the mean of the covariate by MSA. If the MSA did not have any measures for that covariate, then the MSA’s regional mean was imputed for all remaining missing covariates. Our final dataset included 40 variables across 468 MSAs. This dataset was further split to training set (339 obs) and testing set (129 obs).</p>
 
-<h3 id=InitialEDA>3.4 Initial Exploratory Data Analysis on the Training Set</h3>
+    <h3 id=InitialEDA>3.4 Initial Exploratory Data Analysis on the Training Set</h3>
 
 
 
-<h2 id=Approach>4 Modeling Approach and Project Trajectory</h2>
+    <h2 id=Approach>4 Modeling Approach and Project Trajectory</h2>
 
-<h3 id=EDA>4.1 Exploratory Data Analysis</h3>
+    <h3 id=EDA>4.1 Exploratory Data Analysis</h3>
 
-<p>The full dataset was divided into a training and test set before EDA to avoid contamination of the test set for final validation of any prediction models. Descriptive statistics were generated by MSA and year with respect to each potential predictor to gain an initial understanding of the training data and identify relationships of particular interest. Scatter plots were generated to visualize any relationships between potential predictors and violent crime rates, and bar plots were used to examine differences in violent crime across U.S. regions.</p>
+    <p>The full dataset was divided into a training and test set before EDA to avoid contamination of the test set for final validation of any prediction models. Descriptive statistics were generated by MSA and year with respect to each potential predictor to gain an initial understanding of the training data and identify relationships of particular interest. Scatter plots were generated to visualize any relationships between potential predictors and violent crime rates, and bar plots were used to examine differences in violent crime across U.S. regions.</p>
 
-<h3 id=Models>4.2 Data Analysis</h3>
+    <h3 id=Models>4.2 Data Analysis</h3>
 
-<p>After preliminary data exploration, all numerical predictors were standardized and dummy variables were created for the U.S. region variable. The log of violent crime rate was used as the outcome for all models. Three different predictor sets were considered:</p>
+    <p>After preliminary data exploration, all numerical predictors were standardized and dummy variables were created for the U.S. region variable. The log of violent crime rate was used as the outcome for all models. Three different predictor sets were considered:</p>
 
-<ol type="1">
-  <li><em>Baseline model.</em> The following variables were included in the baseline model: sex, median age, income ratio, and region.</li>
-  <li><em>Forward stepwise regression.</em> Forward stepwise regression with BIC as the inclusion criteria was used to select variables from a list of 34 predictors.</li>
-  <li><em>Pre-selected variables.</em> According to literature review and our preliminary EDA, we also constructed models with an even further pruned dataset before analysis. Variables for which colinearities were detected in the exploratory analysis were removed. For example, from total population median age, male median age, and female median age, only male median age was pre-selected into this model. A set of 24 predictors were included in this model: burglary, larceny-theft, motor vehicle theft, property crime, average year, male median age, sex ratio (males per 100 females), percent White alone, percent now married, unemployment rate, percent below the poverty level, high school graduate or higher education, ratio less than 10k to 65K+ income, ratio of owned to rented homes, percent of 1-person households, total population size,  and U.S. region indicators.</li>
-</ol>
+    <ol type="1">
+      <li><em>Baseline model.</em> The following variables were included in the baseline model: sex, median age, income ratio, and region.</li>
+      <li><em>Forward stepwise regression.</em> Forward stepwise regression with BIC as the inclusion criteria was used to select variables from a list of 34 predictors.</li>
+      <li><em>Pre-selected variables.</em> According to literature review and our preliminary EDA, we also constructed models with an even further pruned dataset before analysis. Variables for which colinearities were detected in the exploratory analysis were removed. For example, from total population median age, male median age, and female median age, only male median age was pre-selected into this model. A set of 24 predictors were included in this model: burglary, larceny-theft, motor vehicle theft, property crime, average year, male median age, sex ratio (males per 100 females), percent White alone, percent now married, unemployment rate, percent below the poverty level, high school graduate or higher education, ratio less than 10k to 65K+ income, ratio of owned to rented homes, percent of 1-person households, total population size,  and U.S. region indicators.</li>
+    </ol>
 
-<p>For all three predictor sets mentioned above (baseline, forward-selected, and pre-selected), we performed linear regression, Ridge CV regression, Lasso CV regression, and k-NN analysis. We examined the performance of the models in both the training and testing set by computing the $R^2$. For linear regression, to ensure the assumption of heteroskedasticity and normally distributed residuals was not violated,we checked the distribution and spread of the residuals.</p>
+    <p>For all three predictor sets mentioned above (baseline, forward-selected, and pre-selected), we performed linear regression, Ridge CV regression, Lasso CV regression, and k-NN analysis. We examined the performance of the models in both the training and testing set by computing the $R^2$. For linear regression, to ensure the assumption of heteroskedasticity and normally distributed residuals was not violated,we checked the distribution and spread of the residuals.</p>
 
-<h2 id=Results>5 Results</h2>
+    <h2 id=Results>5 Results</h2>
 
-<h3 id=EDAresults>5.1 EDA Results</h3>
+    <h3 id=EDAresults>5.1 EDA Results</h3>
 
-<p>The MSAs with the highest violent crime per capita were Memphis, TN-MS-AR Metro Area (1093 crimes/100,000 people), Saginaw-Saginaw Township North, MI Metro Area (990 crimes/100,000) and Anchorage, AK Metro Area (886 crimes/100,000). Across eight geographic regions, the West South Central region had the highest crime rate while New England has the lowest rate in the training set.</p>
+    <p>The MSAs with the highest violent crime per capita were Memphis, TN-MS-AR Metro Area (1093 crimes/100,000 people), Saginaw-Saginaw Township North, MI Metro Area (990 crimes/100,000) and Anchorage, AK Metro Area (886 crimes/100,000). Across eight geographic regions, the West South Central region had the highest crime rate while New England has the lowest rate in the training set.</p>
 
-<p>Both a heatmap (not shown here) and scatter plots (Figure 3) suggest violent crime rate is positively correlated with population size, property crime, theft, burglary, unemployment status, and increasing percent below the poverty level. A negative correlation with violent crime was seen with increasing percent married, white race, ratio of male to female, and high-school or higher education level. Other variables examined, such as number of foreign-born citizens appeared to not be associated with violent crime rate and are not presented here.</p>
+    <p>Both a heatmap (not shown here) and scatter plots (Figure 3) suggest violent crime rate is positively correlated with population size, property crime, theft, burglary, unemployment status, and increasing percent below the poverty level. A negative correlation with violent crime was seen with increasing percent married, white race, ratio of male to female, and high-school or higher education level. Other variables examined, such as number of foreign-born citizens appeared to not be associated with violent crime rate and are not presented here.</p>
 
-<h3 id=BaselineResults>5.2 Baseline Model</h3>
-
-
-
-<p>The baseline model performs poorly in both the training and testing sets. kNN performs best using the baseline predictors, with an $R^2$ of .23 in the test set.</p>
-
-<h3 id=ForwardResults>5.3 Forward Selection Model</h3>
-
-<p>In the forward selection approach, the following predictors were retained: percentage White race alone, ratio of less than 10k to 65K+ income, Pacific region, unemployment rate, West South Central region, high school graduate or higher education, West North Central region, motor vehicle theft, burglary, percentage of 1-person households, and percentage below the poverty level. The OLS results using these covariates is below:</p>
+    <h3 id=BaselineResults>5.2 Baseline Model</h3>
 
 
 
-<h3 id=PreselectedResults>5.4 Model with Pre-Selected Variables</h3>
+    <p>The baseline model performs poorly in both the training and testing sets. kNN performs best using the baseline predictors, with an $R^2$ of .23 in the test set.</p>
 
-<p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
+    <h3 id=ForwardResults>5.3 Forward Selection Model</h3>
 
-<h3 id=Performance>5.5 Comparing Performance</h3>
+    <p>In the forward selection approach, the following predictors were retained: percentage White race alone, ratio of less than 10k to 65K+ income, Pacific region, unemployment rate, West South Central region, high school graduate or higher education, West North Central region, motor vehicle theft, burglary, percentage of 1-person households, and percentage below the poverty level. The OLS results using these covariates is below:</p>
 
 
 
-<h3 id=FinalModel>5.6 Final Model</h3>
+    <h3 id=PreselectedResults>5.4 Model with Pre-Selected Variables</h3>
 
-<p>Final Model: The final model we selected was the Lasso regression using pre-selected covariates based on its performance in the test set. Our final model is shown below:</p>
+    <p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
-  "SVG": { linebreaks: { automatic: true, width: "container" } } 
-});
-</script>
+    <h3 id=Performance>5.5 Comparing Performance</h3>
 
-<script type="math/tex; mode=display">log(Violent Crime Rate) = 5.866 + 0.126*(Burglary) + 0.092*(Motor Vehicle Theft) + 0.036*(Property Crime) - 0.011*(Male:Female Ratio) -
-0.063*(White Race) - 0.031*(Now Married) + 0.087*(Unemployment Rate) - 0.134*(Low Income:High Income Ratio) + 0.056*(% 1-Person Households) + 0.032*(% Below Poverty Level) -
-0.074*(HS Diploma or Higher Ed.) + 0.001*(Population Size) - 0.177*(Pacific Region) + 0.014*(South Atlantic Region) + 0.174*(West North Central) + 0.141*(West South
-  Central)</script>
 
-<p>Using cross-validation, the Lasso regression model set larceny-theft, average year, male median age, ratio of owned to rented homes, East South Central region, Mid-Atlantic region, Mountain region, and New England region to zero. Based on the model coefficients shown above, population size was also almost removed from the model. Property crime, male to female ratio, percent now married, percent below the poverty level and the South Atlantic region were weaker predictors. The Pacific region was a strong negative predictor and the West North Central, and West South Central regions were strong positive predictors of the violent crime rate. Higher burglary rate, motor vehicle thefts, and unemployment rate were also strong positive predictors, while higher percentage of population with a high school diploma or higher education was a strong negative predictor of the violent crime rate on the log scale.</p>
 
-<h2 id=Conclusions>6 Conclusions</h2>
+    <h3 id=FinalModel>5.6 Final Model</h3>
 
-<p>Comparing all models above, we found both the stepwise and pre-specified model significantly improve prediction of violent crime per capita compared to the baseline model. The residual plots from linear regression in our models suggest the assumptions of heteroskedasticity and residual normality were not violated. Aside from the baseline model, none of the kNN results outperformed the regression methods in a test set, which may be due to the limited number of observations in our data.</p>
+    <p><strong>Final Model:</strong> The final model we selected was the Lasso regression using pre-selected covariates based on its performance in the test set. Our final model is shown below:</p>
 
-<p>Although the pre-specified model using Lasso cross-validation produces the highest $R^2$ in the test set $(R^2=0.621)$, all non-baseline models perform almost as well in the test set. The models using predictors obtained from stepwise regression perform about as well in the test set $(R^2 = 0.593)$ with fewer predictors. Thus, if all predictors are not available in other data, the predictors selected from stepwise regression may be of more practical use.</p>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+      "SVG": { linebreaks: { automatic: true, width: "container" } }
+    });
+    </script>
 
-<h2 id=Future>7 Future Work</h2>
+    <script type="math/tex; mode=display">log(Violent Crime Rate) = 5.866 + 0.126*(Burglary) + 0.092*(Motor Vehicle Theft) + 0.036*(Property Crime) - 0.011*(Male:Female Ratio) -
+    0.063*(White Race) - 0.031*(Now Married) + 0.087*(Unemployment Rate) - 0.134*(Low Income:High Income Ratio) + 0.056*(% 1-Person Households) + 0.032*(% Below Poverty Level) -
+    0.074*(HS Diploma or Higher Ed.) + 0.001*(Population Size) - 0.177*(Pacific Region) + 0.014*(South Atlantic Region) + 0.174*(West North Central) + 0.141*(West South
+      Central)</script>
 
-<p>Given more time, we would like to perform a time series analysis using data from previous years to predict future crime rates by MSA. We could also dichotomous violent crime per capita to High vs Low crime areas, which would likely increase the accuracy of our model but would decrease the usefulness if counts of violent crime per capita are truly of interest.</p>
+    <p>Using cross-validation, the Lasso regression model set larceny-theft, average year, male median age, ratio of owned to rented homes, East South Central region, Mid-Atlantic region, Mountain region, and New England region to zero. Based on the model coefficients shown above, population size was also almost removed from the model. Property crime, male to female ratio, percent now married, percent below the poverty level and the South Atlantic region were weaker predictors. The Pacific region was a strong negative predictor and the West North Central, and West South Central regions were strong positive predictors of the violent crime rate. Higher burglary rate, motor vehicle thefts, and unemployment rate were also strong positive predictors, while higher percentage of population with a high school diploma or higher education was a strong negative predictor of the violent crime rate on the log scale.</p>
 
-<h2 id=References>8 References</h2>
+    <h2 id=Conclusions>6 Conclusions</h2>
 
-<ol type="1">
-  <li>U.S. Department of Justice FB of I. Crime in the U.S. 2016 [Internet]. 2016 [cited 2017 Dec 6]. Available from: https://ucr.fbi.gov/crime-in-the-u.s/2016/crime-in-the-u.s.-2016/</li>
-  <li>Glaeser E, Sacerdote B. Why Is There More Crime in Cities? [Internet]. Cambridge, MA; 1996 Jan. Available from: http://www.nber.org/papers/w5430.pdf</li>
-  <li>Christens B, Speer PW. Predicting violent crime using urban and suburban densities. Behav. Soc. Issues [Internet]. 2006 [cited 2017 Dec 6];14:113–27. Available from: http://journals.uic.edu/ojs/index.php/bsi/article/view/334/204</li>
-  <li>Flango VE, Sherbenou EL. Poverty, Urbanization, and Crime. Criminology [Internet]. Blackwell Publishing Ltd; 1976 [cited 2017 Dec 6];14:331–46. Available from: http://doi.wiley.com/10.1111/j.1745-9125.1976.tb00027.x</li>
-  <li>Nolan JJ. Establishing the statistical relationship between population size and UCR crime rate: Its impact and implications. J. Crim. Justice [Internet]. 2004 [cited 2017 Dec 6];32:547–55. Available from: http://linkinghub.elsevier.com/retrieve/pii/S0047235204000832</li>
-  <li>Perkins DD, Wandersman A, Rich RC, Taylor RB. The physical environment of street crime: Defensible space, territoriality and incivilities. J. Environ. Psychol. [Internet]. Academic Press; 1993 [cited 2017 Dec 6];13:29–49. Available from: http://www.sciencedirect.com/science/article/pii/S0272494405802130</li>
-  <li>Kuo FE, Sullivan WC. Environment and Crime in the Inner City. Environ. Behav. [Internet]. Sage PublicationsSage CA: Thousand Oaks, CA; 2001 [cited 2017 Dec 6];33:343–67. Available from: http://journals.sagepub.com/doi/10.1177/0013916501333002</li>
-  <li>Lynn LE, Jencks C, Mead LM. Rethinking Social Policy: Race, Poverty, and the Underclass. J. Policy Anal. Manag. [Internet]. WileyAssociation for Public Policy Analysis and Management; 1993 [cited 2017 Dec 6];12:801. Available from: http://www.jstor.org/stable/3325355?origin=crossref</li>
-  <li>Green B, Horel T, Papachristos A V. Modeling Contagion Through Social Networks to Explain and Predict Gunshot Violence in Chicago, 2006 to 2014. JAMA Intern. Med. [Internet]. American Medical Association; 2017 [cited 2017 Dec 6];177:326. Available from: http://archinte.jamanetwork.com/article.aspx?doi=10.1001/jamainternmed.2016.8245</li>
-  <li>Jennifer Rubin, Federico Gallo, Adam Coutts. Violent crime Risk models, effective interventions and risk management. RAND report. https://www.nao.org.uk/wp-content/uploads/2008/02/0708241_risk_models.pdf</li>
-  <li>Violence in the City Understanding and Supporting Community Responses to Urban Violence. UNICEF. 2010 report https://www.unicef.org/protection/Violence_in_the_city2_-_WB_Study.pdf</li>
-</ol>
+    <p>Comparing all models above, we found both the stepwise and pre-specified model significantly improve prediction of violent crime per capita compared to the baseline model. The residual plots from linear regression in our models suggest the assumptions of heteroskedasticity and residual normality were not violated. Aside from the baseline model, none of the kNN results outperformed the regression methods in a test set, which may be due to the limited number of observations in our data.</p>
+
+    <p>Although the pre-specified model using Lasso cross-validation produces the highest $R^2$ in the test set $(R^2=0.621)$, all non-baseline models perform almost as well in the test set. The models using predictors obtained from stepwise regression perform about as well in the test set $(R^2 = 0.593)$ with fewer predictors. Thus, if all predictors are not available in other data, the predictors selected from stepwise regression may be of more practical use.</p>
+
+    <h2 id=Future>7 Future Work</h2>
+
+    <p>Given more time, we would like to perform a time series analysis using data from previous years to predict future crime rates by MSA. We could also dichotomous violent crime per capita to High vs Low crime areas, which would likely increase the accuracy of our model but would decrease the usefulness if counts of violent crime per capita are truly of interest.</p>
+
+    <h2 id=References>8 References</h2>
+
+    <ol type="1">
+      <li>U.S. Department of Justice FB of I. Crime in the U.S. 2016 [Internet]. 2016 [cited 2017 Dec 6]. Available from: https://ucr.fbi.gov/crime-in-the-u.s/2016/crime-in-the-u.s.-2016/</li>
+      <li>Glaeser E, Sacerdote B. Why Is There More Crime in Cities? [Internet]. Cambridge, MA; 1996 Jan. Available from: http://www.nber.org/papers/w5430.pdf</li>
+      <li>Christens B, Speer PW. Predicting violent crime using urban and suburban densities. Behav. Soc. Issues [Internet]. 2006 [cited 2017 Dec 6];14:113–27. Available from: http://journals.uic.edu/ojs/index.php/bsi/article/view/334/204</li>
+      <li>Flango VE, Sherbenou EL. Poverty, Urbanization, and Crime. Criminology [Internet]. Blackwell Publishing Ltd; 1976 [cited 2017 Dec 6];14:331–46. Available from: http://doi.wiley.com/10.1111/j.1745-9125.1976.tb00027.x</li>
+      <li>Nolan JJ. Establishing the statistical relationship between population size and UCR crime rate: Its impact and implications. J. Crim. Justice [Internet]. 2004 [cited 2017 Dec 6];32:547–55. Available from: http://linkinghub.elsevier.com/retrieve/pii/S0047235204000832</li>
+      <li>Perkins DD, Wandersman A, Rich RC, Taylor RB. The physical environment of street crime: Defensible space, territoriality and incivilities. J. Environ. Psychol. [Internet]. Academic Press; 1993 [cited 2017 Dec 6];13:29–49. Available from: http://www.sciencedirect.com/science/article/pii/S0272494405802130</li>
+      <li>Kuo FE, Sullivan WC. Environment and Crime in the Inner City. Environ. Behav. [Internet]. Sage PublicationsSage CA: Thousand Oaks, CA; 2001 [cited 2017 Dec 6];33:343–67. Available from: http://journals.sagepub.com/doi/10.1177/0013916501333002</li>
+      <li>Lynn LE, Jencks C, Mead LM. Rethinking Social Policy: Race, Poverty, and the Underclass. J. Policy Anal. Manag. [Internet]. WileyAssociation for Public Policy Analysis and Management; 1993 [cited 2017 Dec 6];12:801. Available from: http://www.jstor.org/stable/3325355?origin=crossref</li>
+      <li>Green B, Horel T, Papachristos A V. Modeling Contagion Through Social Networks to Explain and Predict Gunshot Violence in Chicago, 2006 to 2014. JAMA Intern. Med. [Internet]. American Medical Association; 2017 [cited 2017 Dec 6];177:326. Available from: http://archinte.jamanetwork.com/article.aspx?doi=10.1001/jamainternmed.2016.8245</li>
+      <li>Jennifer Rubin, Federico Gallo, Adam Coutts. Violent crime Risk models, effective interventions and risk management. RAND report. https://www.nao.org.uk/wp-content/uploads/2008/02/0708241_risk_models.pdf</li>
+      <li>Violence in the City Understanding and Supporting Community Responses to Urban Violence. UNICEF. 2010 report https://www.unicef.org/protection/Violence_in_the_city2_-_WB_Study.pdf</li>
+    </ol>
 
   </body>
 </html>
