@@ -186,7 +186,7 @@
                     <td>0.157</td>
                     <td>0.154</td>
                     <td>0.160</td>
-                    <td>(Optimal K is 15)/n 0.228</td>
+                    <td>0.228<br>(Optimal k is 15)</td>
                 </tr>
         </tbody>
     </table>
@@ -226,14 +226,14 @@
                     <td>0.590</td>
                     <td>0.594</td>
                     <td>0.593</td>
-                    <td>(Optimal K is 10)/n 0.520</td>
+                    <td>0.520<br>(Optimal k is 10)</td>
                 </tr>
         </tbody>
     </table>
 
     <h3 id=PreselectedResults>5.4 Model with Pre-Selected Variables</h3>
 
-    <p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
+    <p>Twenty-four covariates were selected based on previous literature for this model. The OLS regression results are shown below:</p>
 
     <figure>
       <figcaption>Output 2. OLS regression model with pre-selected covariates.</figcaption>
@@ -241,9 +241,74 @@
       <img src="crime_images/Summary2part2.png" width="100%" height="100%"/>
     </figure>
 
+    <p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
+
+    <table class="table table-striped">
+      <caption>Table 3. $R^2$ values for pre-selected variables.</caption>
+        <thead>
+            <tr>
+                <th>$R^2$</th>
+                <th>Linear Regression</th>
+                <th>Ridge CV</th>
+                <th>Lasso CV</th>
+                <th>kNN</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th>Train</th>
+                    <td>0.625</td>
+                    <td>0.617</td>
+                    <td>0.614</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th>Test</th>
+                    <td>0.586</td>
+                    <td>0.620</td>
+                    <td>0.621</td>
+                    <td>0.547<br>(Optimal k is 9)</td>
+                </tr>
+        </tbody>
+    </table>
+
     <h3 id=Performance>5.5 Comparing Performance</h3>
 
-
+    <table class="table table-striped">
+      <caption>Table 4. Comparison of $R^2$ in the test set for all three models.</caption>
+        <thead>
+            <tr>
+                <th>$R^2$</th>
+                <th>Linear Regression</th>
+                <th>Ridge CV</th>
+                <th>Lasso CV</th>
+                <th>kNN</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th>Baseline Model</th>
+                    <td>0.157</td>
+                    <td>0.154</td>
+                    <td>0.160</td>
+                    <td>0.228<br>(Optimal k is 15)</td>
+                </tr>
+                <tr>
+                    <th>Stepwise Regression</th>
+                    <td>0.590</td>
+                    <td>0.594</td>
+                    <td>0.593</td>
+                    <td>0.520<br>(Optimal k is 10)</td>
+                </tr>
+                <tr>
+                    <th>Pre-Specified Model</th>
+                    <td>0.586</td>
+                    <td>0.620</td>
+                    <td>0.621</td>
+                    <td>0.547<br>(Optimal k is 9)</td>
+                </tr>
+        </tbody>
+    </table>
 
     <h3 id=FinalModel>5.6 Final Model</h3>
 
