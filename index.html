@@ -100,7 +100,17 @@
 
     <p>After merging the census dataset with the FBI crime dataset, our dataset contained 2890 observations across 468 MSAs. For ease of analysis, we considered aggregating data for MSAs by taking the average of covariates across all years of available year. Before doing so, we assessed the variability of violent crime per capita over the entire time period.</p>
 
-    <p>Violent crime rates declined slightly from 2006 to 2014 but then increased between 2014-2016 (see Figure 2, left). The pattern appeared to differ by region, though generally most regions show a similar pattern of decline followed by an uptick in the crime rate from 2014 th 2016 (Figure 2, right). Overall, the violent crime rate does not vary widely over time, justifying an approach to aggregate data for MSAs across year. Furthermore, we include an “average year” covariate in some prediction models to capture some of the variability created by some MSAs that only have data for earlier or later years.</p>
+    <figure>
+      <img src="crime_images/ViolentCrimeoverTime.png"/>
+      <figcaption>Figure 2. Violent crime rate of all MSA combined for a given year from 2006 to 2016.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="crime_images/ViolentCrimeoverTimebyRegion.png"/>
+      <figcaption>Figure 3. Violent crime rate for a given year at a particular region from 2006 to 2016.</figcaption>
+    </figure>
+
+    <p>Violent crime rates declined slightly from 2006 to 2014 but then increased between 2014-2016 (see Figure 2). The pattern appeared to differ by region, though generally most regions show a similar pattern of decline followed by an uptick in the crime rate from 2014 th 2016 (Figure 3). Overall, the violent crime rate does not vary widely over time, justifying an approach to aggregate data for MSAs across year. Furthermore, we include an “average year” covariate in some prediction models to capture some of the variability created by some MSAs that only have data for earlier or later years.</p>
 
     <p>Both the Census and FBI datasets provide an MSA population size estimate. These two numbers vary slightly, so the average was used as the final population size covariate for a given MSA. Additionally, about 13% of the marital status and less than 10% of the income covariates were missing. To deal with missingness, we imputed the mean of the covariate by MSA. If the MSA did not have any measures for that covariate, then the MSA’s regional mean was imputed for all remaining missing covariates. Our final dataset included 40 variables across 468 MSAs. This dataset was further split to training set (339 obs) and testing set (129 obs).</p>
 
@@ -132,11 +142,42 @@
 
     <p>The MSAs with the highest violent crime per capita were Memphis, TN-MS-AR Metro Area (1093 crimes/100,000 people), Saginaw-Saginaw Township North, MI Metro Area (990 crimes/100,000) and Anchorage, AK Metro Area (886 crimes/100,000). Across eight geographic regions, the West South Central region had the highest crime rate while New England has the lowest rate in the training set.</p>
 
-    <p>Both a heatmap (not shown here) and scatter plots (Figure 3) suggest violent crime rate is positively correlated with population size, property crime, theft, burglary, unemployment status, and increasing percent below the poverty level. A negative correlation with violent crime was seen with increasing percent married, white race, ratio of male to female, and high-school or higher education level. Other variables examined, such as number of foreign-born citizens appeared to not be associated with violent crime rate and are not presented here.</p>
+    <p>Both a heatmap (not shown here) and scatter plots (Figure 4) suggest violent crime rate is positively correlated with population size, property crime, theft, burglary, unemployment status, and increasing percent below the poverty level. A negative correlation with violent crime was seen with increasing percent married, white race, ratio of male to female, and high-school or higher education level. Other variables examined, such as number of foreign-born citizens appeared to not be associated with violent crime rate and are not presented here.</p>
+
+    <figure>
+      <img src="crime_images/scatterplots.png"/>
+      <figcaption>Figure 4. Scatter plots of possible predictors of violent crime per capita.</figcaption>
+    </figure>
 
     <h3 id=BaselineResults>5.2 Baseline Model</h3>
 
-
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>$R^2$</th>
+                <th>Linear Regression</th>
+                <th>Ridge CV</th>
+                <th>Lasso CV</th>
+                <th>kNN</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th>Train</th>
+                    <td>0.176</td>
+                    <td>0.166</td>
+                    <td>0.174</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th>Test</th>
+                    <td>0.157</td>
+                    <td>0.154</td>
+                    <td>0.160</td>
+                    <td>(Optimal K is 15)/n 0.228</td>
+                </tr>
+        </tbody>
+    </table>
 
     <p>The baseline model performs poorly in both the training and testing sets. kNN performs best using the baseline predictors, with an $R^2$ of .23 in the test set.</p>
 
@@ -144,11 +185,19 @@
 
     <p>In the forward selection approach, the following predictors were retained: percentage White race alone, ratio of less than 10k to 65K+ income, Pacific region, unemployment rate, West South Central region, high school graduate or higher education, West North Central region, motor vehicle theft, burglary, percentage of 1-person households, and percentage below the poverty level. The OLS results using these covariates is below:</p>
 
-
+    <figure>
+      <figcaption>Output 1. OLS regression model with forward-selected covariates.</figcaption>
+      <img src="crime_images/scatterplots.png"/>
+    </figure>
 
     <h3 id=PreselectedResults>5.4 Model with Pre-Selected Variables</h3>
 
     <p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
+
+    <figure>
+      <figcaption>Output 2. OLS regression model with pre-selected covariates.</figcaption>
+      <img src="crime_images/scatterplots.png"/>
+    </figure>
 
     <h3 id=Performance>5.5 Comparing Performance</h3>
 
