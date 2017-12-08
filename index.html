@@ -54,6 +54,7 @@
         <li><a href="#ForwardResults">5.3 Forward Selection Model</a></li>
         <li><a href="#PreselectedResults">5.4 Model with Pre-Selected Variables</a></li>
         <li><a href="#Performance">5.5 Comparing Performance</a></li>
+        <li><a href="#FinalModel">5.6 Final Model</a></li>
       </ul>
       <li><a href="#Conclusions">6 Conclusions</a></li>
       <li><a href="#Future">7 Future Work</a></li>
@@ -130,10 +131,39 @@
 
 <p>Both a heatmap (not shown here) and scatter plots (Figure 3) suggest violent crime rate is positively correlated with population size, property crime, theft, burglary, unemployment status, and increasing percent below the poverty level. A negative correlation with violent crime was seen with increasing percent married, white race, ratio of male to female, and high-school or higher education level. Other variables examined, such as number of foreign-born citizens appeared to not be associated with violent crime rate and are not presented here.</p>
 
+<h3 id=BaselineResults>5.2 Baseline Model</h3>
 
 
 
-<h2 id=#References
+<p>The baseline model performs poorly in both the training and testing sets. kNN performs best using the baseline predictors, with an $R^2$ of .23 in the test set.</p>
+
+<h3 id=ForwardResults>5.3 Forward Selection Model</h3>
+
+<p>In the forward selection approach, the following predictors were retained: percentage White race alone, ratio of less than 10k to 65K+ income, Pacific region, unemployment rate, West South Central region, high school graduate or higher education, West North Central region, motor vehicle theft, burglary, percentage of 1-person households, and percentage below the poverty level. The OLS results using these covariates is below:</p>
+
+
+
+<h3 id=PreselectedResults>5.4 Model with Pre-Selected Variables</h3>
+
+<p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
+
+<h3 id=Performance>5.5 Comparing Performance</h3>
+
+
+
+<h3 id=FinalModel>5.6 Final Model</h3>
+
+<p>Final Model: The final model we selected was the Lasso regression using pre-selected covariates based on its performance in the test set. Our final model is shown below:</p>
+
+<script type="math/tex; mode=display">log(Violent Crime Rate) = 5.866 + 0.126*(Burglary) + 0.092*(Motor Vehicle Theft) + 0.036*(Property Crime) - 0.011*(Male:Female Ratio) - 0.063*(% White Race) - 0.031*(% Now Married) + 0.087*(Unemployment Rate) - 0.134*(Low Income:High Income Ratio) + 0.056*(% 1-Person Households) + 0.032*(% Below Poverty Level) - 0.074*(HS Diploma or Higher Ed.) + 0.001*(Population Size) - 0.177*(Pacific Region) + 0.014*(South Atlantic Region) + 0.174*(West North Central) + 0.141*(West South Central)</script>
+
+<p>Using cross-validation, the Lasso regression model set larceny-theft, average year, male median age, ratio of owned to rented homes, East South Central region, Mid-Atlantic region, Mountain region, and New England region to zero. Based on the model coefficients shown above, population size was also almost removed from the model. Property crime, male to female ratio, percent now married, percent below the poverty level and the South Atlantic region were weaker predictors. The Pacific region was a strong negative predictor and the West North Central, and West South Central regions were strong positive predictors of the violent crime rate. Higher burglary rate, motor vehicle thefts, and unemployment rate were also strong positive predictors, while higher percentage of population with a high school diploma or higher education was a strong negative predictor of the violent crime rate on the log scale.</p>
+
+
+<h2 id=References>8 References</h2>
+
+<ol type="1">
+
 
   </body>
 </html>
