@@ -85,7 +85,7 @@
     <p>The FBI crime dataset had 3806 observations over the eleven-year time period (2006-2016) across 511 MSAs. 163 MSAs had data over all 11 years, and the majority (n=415) had data for 5 or more years. Due the large number of MSA, we grouped MSA into eight regions to visualize the geographic variability in crime rate: “New England”, “Middle Atlantic”, “East North Central”, “West North Central”, “South Atlantic”, “East South Central”, “Mountain”, and “Pacific” (see Figure 1).</p>
 
     <figure>
-      <img src="crime_images/crime_VCbyRegion.png" width="100%" height="100%"/>
+      <img src="crime_images/crime_VCbyRegion.png" width="50%" height="50%"/>
       <figcaption>Figure 1. Violent Crime Rate by Region.</figcaption>
     </figure>
 
@@ -100,12 +100,12 @@
     <p>After merging the census dataset with the FBI crime dataset, our dataset contained 2890 observations across 468 MSAs. For ease of analysis, we considered aggregating data for MSAs by taking the average of covariates across all years of available year. Before doing so, we assessed the variability of violent crime per capita over the entire time period.</p>
 
     <figure>
-      <img src="crime_images/ViolentCrimeoverTime.png" width="50%" height="50%"/>
+      <img src="crime_images/ViolentCrimeoverTime.png" width="25%" height="25%"/>
       <figcaption>Figure 2. Violent crime rate of all MSA combined for a given year from 2006 to 2016.</figcaption>
     </figure>
 
     <figure>
-      <img src="crime_images/ViolentCrimeoverTimebyRegion.png" width="50%" height="50%"/>
+      <img src="crime_images/ViolentCrimeoverTimebyRegion.png" width="25%" height="25%"/>
       <figcaption>Figure 3. Violent crime rate for a given year at a particular region from 2006 to 2016.</figcaption>
     </figure>
 
@@ -194,7 +194,7 @@
 
     <figure>
       <figcaption>Output 1. OLS regression model with forward-selected covariates.</figcaption>
-      <img src="crime_images/summary1.png" width="75%" height="75%"/>
+      <img src="crime_images/summary1.png" width="40%" height="40%"/>
     </figure>
 
     <table class="table table-striped">
@@ -232,8 +232,8 @@
 
     <figure>
       <figcaption>Output 2. OLS regression model with pre-selected covariates.</figcaption>
-      <img src="crime_images/Summary2part1.png" width="75%" height="75%"/>
-      <img src="crime_images/Summary2part2.png" width="75%" height="75%"/>
+      <img src="crime_images/Summary2part1.png" width="40%" height="40%"/>
+      <img src="crime_images/Summary2part2.png" width="40%" height="40%"/>
     </figure>
 
     <p>According to the table above, the pre-specified linear regression model has an $R^2$ of 0.626 in the training set. The following predictors have the largest effect on violent crime rate: burglary, theft, property crime and Pacific, West North Central and West South Central regions.</p>
