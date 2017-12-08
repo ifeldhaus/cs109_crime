@@ -155,7 +155,14 @@
 
 <p>Final Model: The final model we selected was the Lasso regression using pre-selected covariates based on its performance in the test set. Our final model is shown below:</p>
 
-<script type="math/tex; mode=display" style="word-wrap:break-word">log(Violent Crime Rate) = 5.866 + 0.126*(Burglary) + 0.092*(Motor Vehicle Theft) + 0.036*(Property Crime) - 0.011*(Male:Female Ratio) -
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+  "SVG": { linebreaks: { automatic: true, width: "container" } } 
+});
+</script>
+
+<script type="math/tex; mode=display">log(Violent Crime Rate) = 5.866 + 0.126*(Burglary) + 0.092*(Motor Vehicle Theft) + 0.036*(Property Crime) - 0.011*(Male:Female Ratio) -
 0.063*(White Race) - 0.031*(Now Married) + 0.087*(Unemployment Rate) - 0.134*(Low Income:High Income Ratio) + 0.056*(% 1-Person Households) + 0.032*(% Below Poverty Level) -
 0.074*(HS Diploma or Higher Ed.) + 0.001*(Population Size) - 0.177*(Pacific Region) + 0.014*(South Atlantic Region) + 0.174*(West North Central) + 0.141*(West South
   Central)</script>
