@@ -152,6 +152,7 @@
     <h3 id=BaselineResults>5.2 Baseline Model</h3>
 
     <table class="table table-striped">
+      <caption>Table 1. Baseline model results</caption>
         <thead>
             <tr>
                 <th>$R^2$</th>
@@ -187,8 +188,37 @@
 
     <figure>
       <figcaption>Output 1. OLS regression model with forward-selected covariates.</figcaption>
-      <img src="crime_images/scatterplots.png"/>
+      <img src="crime_images/summary1.png"/>
     </figure>
+
+    <table class="table table-striped">
+      <caption>Table 2. $R^2$ values for forward selected variables.</caption>
+        <thead>
+            <tr>
+                <th>$R^2$</th>
+                <th>Linear Regression</th>
+                <th>Ridge CV</th>
+                <th>Lasso CV</th>
+                <th>kNN</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th>Train</th>
+                    <td>0.610</td>
+                    <td>0.615</td>
+                    <td>0.615</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th>Test</th>
+                    <td>0.590</td>
+                    <td>0.594</td>
+                    <td>0.593</td>
+                    <td>(Optimal K is 10)/n 0.520</td>
+                </tr>
+        </tbody>
+    </table>
 
     <h3 id=PreselectedResults>5.4 Model with Pre-Selected Variables</h3>
 
@@ -196,7 +226,8 @@
 
     <figure>
       <figcaption>Output 2. OLS regression model with pre-selected covariates.</figcaption>
-      <img src="crime_images/scatterplots.png"/>
+      <img src="crime_images/Summary2part1.png"/>
+      <img src="crime_images/Summary2part2.png"/>
     </figure>
 
     <h3 id=Performance>5.5 Comparing Performance</h3>
