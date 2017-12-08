@@ -62,11 +62,11 @@
 </div>
 
 
-<h2><a name="#Problem">1 Problem Statement and Motivation</a></h2>
+<h2 id=Problem>1 Problem Statement and Motivation</h2>
 
 <p>According to the U.S. Federal Bureau of Investigation (FBI), violent crime has increased 2.6% since 2012 with 1.2 million violent crimes in 2016 [1]. Predicting violent crime can be critical to effective targeting of prevention efforts given inevitable resource constraints. The objective of this analysis is to build and evaluate a data-driven model for predicting violent crime per capita in selected metropolitan regions of the U.S. using publicly available crime and census data from 2006 to 2016.</p>
 
-<h2 id="#LitReview">2 Literature Review</h2>
+<h2 id=LitReview>2 Literature Review</h2>
 
 <p>The connection between crime and city size has long been recognized. Several studies since 1976 discuss the tendency for larger urban areas to have higher crime rates. This relationship is hypothesized to be driven by overcrowding and anti-social behavior, an association between population density and poverty, and/or increased opportunity for crimes in densely populated areas [2,3]. Glaeser and Sacerdote (1999) use victimization data, evidence on criminal behavior, and crime reports to demonstrate a positive correlation between city size and crime rates per capita, including murder rates per capita [2]. Their findings suggest that higher pecuniary returns to crime and lower probability of arrest in urban areas are among the drivers of increased violent crime rates. Other studies point to the characteristics of inhabitants within a geographical area, including income, race, homeownership, and family structure as well as psychological and physical-environmental factors as predictors of crime [4–8]. Another study found that gun violence is spread through individuals’ social networks, as if an epidemic-like process of social contagion [9]. The factors considered in these studies are all distinctly related by urban geographical area.</p>
 
@@ -74,7 +74,7 @@
 
 <p>Based on these existing evidences, we were particularly interested in population size and region as they relate to violent crime per capita in this analysis. We have also considered characteristics of inhabitants, such as median age, sex, race, marital status, educational attainment, and poverty status, as each of these variables also align with the literature as potentially good predictors of violent crime [11].</p>
 
-<h2 id="#Intro">3 Description of the Data</h2>
+<h2 id=Intro>3 Description of the Data</h2>
 
 <p>Our goal is to build and evaluate a prediction model for violent crime per capita because the cost of violent crime to victims and the criminal justice system is significantly higher than other crime[10]. Thus, it is important to understand and be able to predict violent crime rate given census data and other crime data for a particular metropolitan area so that potential interventions may be designed for high violent crime cities.</p>
 
@@ -82,17 +82,17 @@
 
 <p>Potential predictors of violent crime included property crime (data available via UCR database), MSA population size, age, sex, race, ethnicity, household type, marital status, education attainment, place of birth and/or citizenship status, employment status, income in the past 12 months, type of income, homeownership, and poverty status, all of which are available and downloaded from U.S. Census dataset.</p>
 
-<h3 id=#FBIdata>3.1 FBI Crime Dataset</h3>
+<h3 id=FBIdata>3.1 FBI Crime Dataset</h3>
 
 <p>The FBI crime dataset had 3806 observations over the eleven-year time period (2006-2016) across 511 MSAs. 163 MSAs had data over all 11 years, and the majority (n=415) had data for 5 or more years. Due the large number of MSA, we grouped MSA into eight regions to visualize the geographic variability in crime rate: “New England”, “Middle Atlantic”, “East North Central”, “West North Central”, “South Atlantic”, “East South Central”, “Mountain”, and “Pacific” (see Figure 1).</p>
 
 <p>As shown in Figure 1 above, violent crime varies dramatically across region. West South Central has the highest violent crime rate (501.43 violent crimes/100,000 people) while the Middle Atlantic has the lowest violent crime rate (275.05 violent crimes/100,000 people). This suggests that region may be predictive of violent crime, so region was included as a possible predictor in analyses.</p>
 
-<h3 id=#UScensus>3.2 U.S. Census Data</h3>
+<h3 id=UScensus>3.2 U.S. Census Data</h3>
 
 <p>We downloaded data on age, sex, race, ethnicity, household type, marital status, education attainment, place of birth and/or citizenship status, employment status, income in the past 12 months, type of income, poverty status, household size, and ratio of homeowners versus renters, from 2006-2016, using the United States Census Bureau (USCB) website. After some initial exploratory analysis, we decided to particularly focus on the following predictors from the census data: <em>population size, sex, age, race, marital status, education level, poverty status, employment status, U.S. region, homeownership, income inequality, and household size</em>.</p>
 
-<h3 id=#Aggregating>3.3 Aggregating the Data</h3>
+<h3 id=Aggregating>3.3 Aggregating the Data</h3>
 
 <p>After merging the census dataset with the FBI crime dataset, our dataset contained 2890 observations across 468 MSAs. For ease of analysis, we considered aggregating data for MSAs by taking the average of covariates across all years of available year. Before doing so, we assessed the variability of violent crime per capita over the entire time period.</p>
 
@@ -100,17 +100,17 @@
 
 <p>Both the Census and FBI datasets provide an MSA population size estimate. These two numbers vary slightly, so the average was used as the final population size covariate for a given MSA. Additionally, about 13% of the marital status and less than 10% of the income covariates were missing. To deal with missingness, we imputed the mean of the covariate by MSA. If the MSA did not have any measures for that covariate, then the MSA’s regional mean was imputed for all remaining missing covariates. Our final dataset included 40 variables across 468 MSAs. This dataset was further split to training set (339 obs) and testing set (129 obs).</p>
 
-<h3 id=#InitialEDA>3.4 Initial Exploratory Data Analysis on the Training Set</h3>
+<h3 id=InitialEDA>3.4 Initial Exploratory Data Analysis on the Training Set</h3>
 
 
 
-<h2 id=#Approach>4 Modeling Approach and Project Trajectory</h2>
+<h2 id=Approach>4 Modeling Approach and Project Trajectory</h2>
 
-<h3 id=#EDA>4.1 Exploratory Data Analysis</h3>
+<h3 id=EDA>4.1 Exploratory Data Analysis</h3>
 
 <p>The full dataset was divided into a training and test set before EDA to avoid contamination of the test set for final validation of any prediction models. Descriptive statistics were generated by MSA and year with respect to each potential predictor to gain an initial understanding of the training data and identify relationships of particular interest. Scatter plots were generated to visualize any relationships between potential predictors and violent crime rates, and bar plots were used to examine differences in violent crime across U.S. regions.</p>
 
-<h3><a name=#Models>4.2 Data Analysis</a></h3>
+<h3 id=Models>4.2 Data Analysis</h3>
 
 <p>After preliminary data exploration, all numerical predictors were standardized and dummy variables were created for the U.S. region variable. The log of violent crime rate was used as the outcome for all models. Three different predictor sets were considered:</p>
 
@@ -122,7 +122,7 @@
 
 <p>For all three predictor sets mentioned above (baseline, forward-selected, and pre-selected), we performed linear regression, Ridge CV regression, Lasso CV regression, and k-NN analysis. We examined the performance of the models in both the training and testing set by computing the $R^2$. For linear regression, to ensure the assumption of heteroskedasticity and normally distributed residuals was not violated,we checked the distribution and spread of the residuals.</p>
 
-<h2 id=#Results>5 Results</h2>
+<h2 id=Results>5 Results</h2>
 
 <h3 id=EDAresults>5.1 EDA Results</h3>
 
@@ -132,6 +132,8 @@
 
 
 
+
+<h2 id=#References
 
   </body>
 </html>
