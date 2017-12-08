@@ -38,7 +38,6 @@
             <li><a href="#FBIdata">3.1 FBI Crime Dataset</a></li>
             <li><a href="#UScensus">3.2 U.S. Census Dataset</a></li>
             <li><a href="#Aggregating">3.3 Aggregating the Data</a></li>
-            <li><a href="#InitialEDA">3.4 Initial Exploratory Data Analysis on the Training Set</a></li>
           </ul>
           <li><a href="#Approach">4 Modeling Approach and Project Trajectory</a></li>
           <ul>
@@ -113,10 +112,6 @@
     <p>Violent crime rates declined slightly from 2006 to 2014 but then increased between 2014-2016 (see Figure 2). The pattern appeared to differ by region, though generally most regions show a similar pattern of decline followed by an uptick in the crime rate from 2014 th 2016 (Figure 3). Overall, the violent crime rate does not vary widely over time, justifying an approach to aggregate data for MSAs across year. Furthermore, we include an “average year” covariate in some prediction models to capture some of the variability created by some MSAs that only have data for earlier or later years.</p>
 
     <p>Both the Census and FBI datasets provide an MSA population size estimate. These two numbers vary slightly, so the average was used as the final population size covariate for a given MSA. Additionally, about 13% of the marital status and less than 10% of the income covariates were missing. To deal with missingness, we imputed the mean of the covariate by MSA. If the MSA did not have any measures for that covariate, then the MSA’s regional mean was imputed for all remaining missing covariates. Our final dataset included 40 variables across 468 MSAs. This dataset was further split to training set (339 obs) and testing set (129 obs).</p>
-
-    <h3 id=InitialEDA>3.4 Initial Exploratory Data Analysis on the Training Set</h3>
-
-
 
     <h2 id=Approach>4 Modeling Approach and Project Trajectory</h2>
 
