@@ -159,11 +159,31 @@
 
 <p>Using cross-validation, the Lasso regression model set larceny-theft, average year, male median age, ratio of owned to rented homes, East South Central region, Mid-Atlantic region, Mountain region, and New England region to zero. Based on the model coefficients shown above, population size was also almost removed from the model. Property crime, male to female ratio, percent now married, percent below the poverty level and the South Atlantic region were weaker predictors. The Pacific region was a strong negative predictor and the West North Central, and West South Central regions were strong positive predictors of the violent crime rate. Higher burglary rate, motor vehicle thefts, and unemployment rate were also strong positive predictors, while higher percentage of population with a high school diploma or higher education was a strong negative predictor of the violent crime rate on the log scale.</p>
 
+<h2 id=Conclusions>6 Conclusions</h2>
+
+<p>Comparing all models above, we found both the stepwise and pre-specified model significantly improve prediction of violent crime per capita compared to the baseline model. The residual plots from linear regression in our models suggest the assumptions of heteroskedasticity and residual normality were not violated. Aside from the baseline model, none of the kNN results outperformed the regression methods in a test set, which may be due to the limited number of observations in our data.</p>
+
+<p>Although the pre-specified model using Lasso cross-validation produces the highest R^2 in the test set $(R^2=0.621)$, all non-baseline models perform almost as well in the test set. The models using predictors obtained from stepwise regression perform about as well in the test set $(R^2 = 0.593)$ with fewer predictors. Thus, if all predictors are not available in other data, the predictors selected from stepwise regression may be of more practical use.</p>
+
+<h2 id=Future>7 Future Work</h2>
+
+<p>Given more time, we would like to perform a time series analysis using data from previous years to predict future crime rates by MSA. We could also dichotomous violent crime per capita to High vs Low crime areas, which would likely increase the accuracy of our model but would decrease the usefulness if counts of violent crime per capita are truly of interest.</p>
 
 <h2 id=References>8 References</h2>
 
 <ol type="1">
-
+  <li>U.S. Department of Justice FB of I. Crime in the U.S. 2016 [Internet]. 2016 [cited 2017 Dec 6]. Available from: https://ucr.fbi.gov/crime-in-the-u.s/2016/crime-in-the-u.s.-2016/</li>
+  <li>Glaeser E, Sacerdote B. Why Is There More Crime in Cities? [Internet]. Cambridge, MA; 1996 Jan. Available from: http://www.nber.org/papers/w5430.pdf</li>
+  <li>Christens B, Speer PW. Predicting violent crime using urban and suburban densities. Behav. Soc. Issues [Internet]. 2006 [cited 2017 Dec 6];14:113–27. Available from: http://journals.uic.edu/ojs/index.php/bsi/article/view/334/204</li>
+  <li>Flango VE, Sherbenou EL. Poverty, Urbanization, and Crime. Criminology [Internet]. Blackwell Publishing Ltd; 1976 [cited 2017 Dec 6];14:331–46. Available from: http://doi.wiley.com/10.1111/j.1745-9125.1976.tb00027.x</li>
+  <li>Nolan JJ. Establishing the statistical relationship between population size and UCR crime rate: Its impact and implications. J. Crim. Justice [Internet]. 2004 [cited 2017 Dec 6];32:547–55. Available from: http://linkinghub.elsevier.com/retrieve/pii/S0047235204000832</li>
+  <li>Perkins DD, Wandersman A, Rich RC, Taylor RB. The physical environment of street crime: Defensible space, territoriality and incivilities. J. Environ. Psychol. [Internet]. Academic Press; 1993 [cited 2017 Dec 6];13:29–49. Available from: http://www.sciencedirect.com/science/article/pii/S0272494405802130</li>
+  <li>Kuo FE, Sullivan WC. Environment and Crime in the Inner City. Environ. Behav. [Internet]. Sage PublicationsSage CA: Thousand Oaks, CA; 2001 [cited 2017 Dec 6];33:343–67. Available from: http://journals.sagepub.com/doi/10.1177/0013916501333002</li>
+  <li>Lynn LE, Jencks C, Mead LM. Rethinking Social Policy: Race, Poverty, and the Underclass. J. Policy Anal. Manag. [Internet]. WileyAssociation for Public Policy Analysis and Management; 1993 [cited 2017 Dec 6];12:801. Available from: http://www.jstor.org/stable/3325355?origin=crossref</li>
+  <li>Green B, Horel T, Papachristos A V. Modeling Contagion Through Social Networks to Explain and Predict Gunshot Violence in Chicago, 2006 to 2014. JAMA Intern. Med. [Internet]. American Medical Association; 2017 [cited 2017 Dec 6];177:326. Available from: http://archinte.jamanetwork.com/article.aspx?doi=10.1001/jamainternmed.2016.8245</li>
+  <li>Jennifer Rubin, Federico Gallo, Adam Coutts. Violent crime Risk models, effective interventions and risk management. RAND report. https://www.nao.org.uk/wp-content/uploads/2008/02/0708241_risk_models.pdf</li>
+  <li>Violence in the City Understanding and Supporting Community Responses to Urban Violence. UNICEF. 2010 report https://www.unicef.org/protection/Violence_in_the_city2_-_WB_Study.pdf</li>
+</ol>
 
   </body>
 </html>
